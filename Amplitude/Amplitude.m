@@ -262,9 +262,11 @@ static NSString *const SEQUENCE_NUMBER = @"sequence_number";
             self->_uploadTaskID = UIBackgroundTaskInvalid;
             
             NSString *eventsDataDirectory = [AMPUtils platformDataDirectory];
-            NSString *propertyListPath = [eventsDataDirectory stringByAppendingPathComponent:@"com.amplitude.plist"];
+            NSString *propertyListPath;
             if (![self->_instanceName isEqualToString:kAMPDefaultInstance]) {
-                propertyListPath = [NSString stringWithFormat:@"%@_%@", propertyListPath, self->_instanceName]; // namespace pList with instance name
+                propertyListPath = [eventsDataDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"com.%@.plist", self->_instanceName]];
+            } else {
+                propertyListPath = [eventsDataDirectory stringByAppendingPathComponent:@"com.amplitude.plist"];
             }
             self->_propertyListPath = SAFE_ARC_RETAIN(propertyListPath);
             self->_eventsDataPath = SAFE_ARC_RETAIN([eventsDataDirectory stringByAppendingPathComponent:@"com.amplitude.archiveDict"]);

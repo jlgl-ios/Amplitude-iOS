@@ -115,9 +115,11 @@ static NSString *const GET_VALUE = @"SELECT %@, %@ FROM %@ WHERE %@ = ?;";
 
     if ((self = [super init])) {
         NSString *databaseDirectory = [AMPUtils platformDataDirectory];
-        NSString *databasePath = [databaseDirectory stringByAppendingPathComponent:@"com.amplitude.database"];
+        NSString *databasePath;
         if (![instanceName isEqualToString:kAMPDefaultInstance]) {
-            databasePath = [NSString stringWithFormat:@"%@_%@", databasePath, instanceName];
+            databasePath = [databaseDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"com.%@.database", instanceName]];
+        } else {
+            databasePath = [databaseDirectory stringByAppendingPathComponent:@"com.amplitude.database"];
         }
         _callResetListenerOnDatabaseReset = YES;
         _databasePath = SAFE_ARC_RETAIN(databasePath);
