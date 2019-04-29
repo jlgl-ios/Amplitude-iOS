@@ -1053,6 +1053,7 @@ static NSString *const SEQUENCE_NUMBER = @"sequence_number";
         if (response != nil) {
             if ([httpResponse statusCode] == 200) {
                 NSString *result = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+                result = [result stringByReplacingOccurrencesOfString:@"\n" withString:@""];
                 if ([result isEqualToString:@"success"]) {
                     // success, remove existing events from dictionary
                     uploadSuccessful = YES;
